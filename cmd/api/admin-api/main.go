@@ -16,11 +16,12 @@ package main
 
 import (
 	"flag"
-	"github.com/OpenIMSDK/chat/tools/component"
 	"math/rand"
 	"net"
 	"strconv"
 	"time"
+
+	"github.com/OpenIMSDK/chat/tools/component"
 
 	mw2 "github.com/OpenIMSDK/chat/pkg/common/mw"
 
@@ -38,7 +39,8 @@ import (
 func main() {
 	rand.Seed(time.Now().UnixNano())
 	var configFile string
-	flag.StringVar(&configFile, "config_folder_path", "../config/config.yaml", "Config full path")
+	// flag.StringVar(&configFile, "config_folder_path", "../../../config/config.yaml", "Config full path")
+	flag.StringVar(&configFile, "c", "../../../config/config.yaml", "Config full path")
 
 	var ginPort int
 

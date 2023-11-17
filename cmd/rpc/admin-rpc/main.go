@@ -30,7 +30,8 @@ import (
 func main() {
 	rand.Seed(time.Now().UnixNano())
 	var configFile string
-	flag.StringVar(&configFile, "config_folder_path", "../../../config/config.yaml", "Config full path")
+	// flag.StringVar(&configFile, "config_folder_path", "../../../config/config.yaml", "Config full path")
+	flag.StringVar(&configFile, "c", "../../../config/config.yaml", "Config full path")
 
 	var rpcPort int
 

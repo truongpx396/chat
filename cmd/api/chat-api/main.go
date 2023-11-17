@@ -43,14 +43,15 @@ import (
 func main() {
 	rand.Seed(time.Now().UnixNano())
 	var configFile string
-	flag.StringVar(&configFile, "config_folder_path", "../../../config/config.yaml", "Config full path:")
+	// flag.StringVar(&configFile, "config_folder_path", "../../../config/config.yaml", "Config full path:")
+	flag.StringVar(&configFile, "c", "../../../config/config.yaml", "Config full path:")
 
 	// defaultPorts := config.Config.ChatApi.GinPort
 	var ginPort int
 	flag.IntVar(&ginPort, "port", 10008, "get ginServerPort from cmd")
 
 	var hide bool
-	flag.BoolVar(&hide, "hide", true, "hide the ComponentCheck result")
+	flag.BoolVar(&hide, "hide", false, "hide the ComponentCheck result")
 
 	flag.Parse()
 
