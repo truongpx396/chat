@@ -76,6 +76,19 @@ func (o *ChatApi) VerifyCode(c *gin.Context) {
 	a2r.Call(chat.ChatClient.VerifyCode, o.chatClient, c)
 }
 
+// UserRegisterReq
+// @Summary User registration
+// @Description User registration
+// @Tags Account
+// @ID UserRegister
+// @Accept json
+// @Param OperationId header string true "Operation Id"
+// @Param UserInfo body chat.RegisterUserReq true "Secret is the Openim key. For details, see the server Config.yaml Secret field."
+// @Produce json
+// @Success 200 {object} apistruct.UserRegisterResp
+// @Failure 500 {object} error "ERRCODE is 500 generally an internal error of the server"
+// @Failure 400 {object} error "Errcode is"
+// @Router /account/register [post]
 func (o *ChatApi) RegisterUser(c *gin.Context) {
 	var (
 		req  chat.RegisterUserReq

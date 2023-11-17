@@ -36,12 +36,14 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 
 	"github.com/gin-gonic/gin"
+
+	_ "github.com/OpenIMSDK/chat/cmd/api/docs"
 )
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
 	var configFile string
-	flag.StringVar(&configFile, "config_folder_path", "../config/config.yaml", "Config full path:")
+	flag.StringVar(&configFile, "config_folder_path", "../../../config/config.yaml", "Config full path:")
 
 	// defaultPorts := config.Config.ChatApi.GinPort
 	var ginPort int
@@ -54,6 +56,7 @@ func main() {
 
 	err := component.ComponentCheck(configFile, hide)
 	if err != nil {
+		panic(err)
 		return
 	}
 	err = config.InitConfig(configFile)
@@ -76,6 +79,7 @@ func main() {
 	zk.AddOption(mw.GrpcClient(), grpc.WithTransportCredentials(insecure.NewCredentials())) // 默认RPC中间件
 	engine := gin.Default()
 	engine.Use(mw.CorsHandler(), mw.GinParseOperationID(), mw2.GinLog())
+
 	api.NewChatRoute(engine, zk)
 
 	address := net.JoinHostPort(config.Config.ChatApi.ListenIP, strconv.Itoa(ginPort))

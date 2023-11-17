@@ -1,0 +1,107 @@
+basePath: /
+definitions:
+  apistruct.UserRegisterResp:
+    properties:
+      chatToken:
+        type: string
+      imToken:
+        type: string
+      userID:
+        type: string
+    type: object
+  chat.RegisterUserInfo:
+    properties:
+      account:
+        type: string
+      areaCode:
+        type: string
+      birth:
+        type: integer
+      email:
+        type: string
+      faceURL:
+        type: string
+      gender:
+        type: integer
+      nickname:
+        type: string
+      password:
+        type: string
+      phoneNumber:
+        type: string
+      userID:
+        type: string
+    type: object
+  chat.RegisterUserReq:
+    properties:
+      autoLogin:
+        type: boolean
+      deviceID:
+        type: string
+      invitationCode:
+        type: string
+      ip:
+        type: string
+      platform:
+        type: integer
+      user:
+        $ref: '#/definitions/chat.RegisterUserInfo'
+      verifyCode:
+        type: string
+    type: object
+host: localhost:10008
+info:
+  contact: {}
+  description: Open-IM-Chat API server document, all requests in the document have
+    an OperationId field for link tracking
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Open-IM-Chat API
+  version: "1.0"
+paths:
+  /account/register:
+    post:
+      consumes:
+      - application/json
+      description: User registration
+      operationId: UserRegister
+      parameters:
+      - description: Operation Id
+        in: header
+        name: OperationId
+        required: true
+        type: string
+      - description: Secret is the Openim key. For details, see the server Config.yaml
+          Secret field.
+        in: body
+        name: UserInfo
+        required: true
+        schema:
+          $ref: '#/definitions/chat.RegisterUserReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/apistruct.UserRegisterResp'
+        "400":
+          description: Errcode is
+          schema: {}
+        "500":
+          description: ERRCODE is 500 generally an internal error of the server
+          schema: {}
+      summary: User registration
+      tags:
+      - Account
+schemes:
+- http
+- https
+securityDefinitions:
+  ApiKeyAuth:
+    description: Description for what is this security definition being used
+    in: header
+    name: token
+    type: apiKey
+swagger: "2.0"

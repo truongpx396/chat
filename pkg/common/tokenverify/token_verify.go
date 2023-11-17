@@ -87,9 +87,9 @@ func getToken(t string) (string, int32, error) {
 		}
 	} else {
 		claims, ok := token.Claims.(*claims)
-		if claims.PlatformID != 0 {
-			return "", 0, errs.ErrTokenNotExist.Wrap()
-		}
+		// if claims.PlatformID != 0 {
+		// 	return "", 0, errs.ErrTokenNotExist.Wrap()
+		// }
 		if ok && token.Valid {
 			return claims.UserID, claims.UserType, nil
 		}

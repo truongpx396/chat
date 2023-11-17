@@ -29,8 +29,8 @@ adminApi:
   listenIP:
 
 rpc:
-  registerIP:                             #作为rpc启动时，注册到zookeeper的IP，api/gateway能访问到此ip和对应的rpcPort中的端口
-  listenIP:                               #默认为0.0.0.0
+  registerIP: 127.0.0.1                            #When starting as RPC, register to the ip of Zookeeper, API/Gateway can access the port in this IP and the corresponding RPCPORT
+  listenIP:                              #Declars 0.0.0.0
 
 rpcPort:
   openImAdminPort: [ 30200 ]
@@ -41,6 +41,9 @@ rpcRegisterName:
 
 # 没有配置表示和OpenIM一致
 mysql:
+  address: [ 127.0.0.1:13306 ]
+  username: root
+  password: openIM123
   #  address: [ 127.0.0.1:13306 ]            #目前仅支持单机
   #  username: root                          #用户名
   #  password: openIM123                     #密码
@@ -67,25 +70,25 @@ log:
 #  expire: 86400
 
 verifyCode:
-  validTime: 300 # 验证码有效时间
-  validCount: 5 # 验证码有效次数
-  uintTime: 86400 # 单位时间间隔
-  maxCount: 10 # 单位时间内最大获取次数
-  superCode: "666666" # 超级验证码(只有use为空时使用)
-  len: 6 # 验证码长度
-  use: "" # 使用的验证码服务(use: "ali")
+  validTime: 300 # Valid time of verification code
+  validCount: 5 # Valid number of verification codes
+  uintTime: 86400 # Unit time interval
+  maxCount: 10 # The maximum number of acquisitions during the unit time
+  superCode: "666666" # Super verification code (only used for use is used)
+  len: 6 #Verification code length
+  use: "" # The verification code service used (use: "ali")
   ali:
     endpoint: "dysmsapi.aliyuncs.com"
     accessKeyId: ""
     accessKeySecret: ""
     signName: ""
     verificationCodeTemplateCode: ""
-  mail: # 根据对应的发件邮箱更改 sendMail、senderAuthorizationCode、smtpAddr、smtpPort 即可
+  mail: # Change Sendmail, SendrautHorizationCode, SMTPADDR, SMTPPPORT
     title: ""
-    senderMail: "" # 发送者
-    senderAuthorizationCode: "" # 授权码
-    smtpAddr: "smtp.qq.com"  # smtp 服务器地址
-    smtpPort: 25   # smtp 服务器邮件发送端口
+    senderMail: "" # sender
+    senderAuthorizationCode: "" # Authorization code
+    smtpAddr: "smtp.qq.com"  # SMTP server address
+    smtpPort: 25   # smtp Server mail sending port
   testDepartMentID: 001
   imAPIURL: http://127.0.0.1:10002
 

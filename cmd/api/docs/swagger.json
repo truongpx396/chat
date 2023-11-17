@@ -1,0 +1,156 @@
+{
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "Open-IM-Chat API server document, all requests in the document have an OperationId field for link tracking",
+        "title": "Open-IM-Chat API",
+        "contact": {},
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:10008",
+    "basePath": "/",
+    "paths": {
+        "/account/register": {
+            "post": {
+                "description": "User registration",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "summary": "User registration",
+                "operationId": "UserRegister",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Operation Id",
+                        "name": "OperationId",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Secret is the Openim key. For details, see the server Config.yaml Secret field.",
+                        "name": "UserInfo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/chat.RegisterUserReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/apistruct.UserRegisterResp"
+                        }
+                    },
+                    "400": {
+                        "description": "Errcode is",
+                        "schema": {}
+                    },
+                    "500": {
+                        "description": "ERRCODE is 500 generally an internal error of the server",
+                        "schema": {}
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "apistruct.UserRegisterResp": {
+            "type": "object",
+            "properties": {
+                "chatToken": {
+                    "type": "string"
+                },
+                "imToken": {
+                    "type": "string"
+                },
+                "userID": {
+                    "type": "string"
+                }
+            }
+        },
+        "chat.RegisterUserInfo": {
+            "type": "object",
+            "properties": {
+                "account": {
+                    "type": "string"
+                },
+                "areaCode": {
+                    "type": "string"
+                },
+                "birth": {
+                    "type": "integer"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "faceURL": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "integer"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                },
+                "userID": {
+                    "type": "string"
+                }
+            }
+        },
+        "chat.RegisterUserReq": {
+            "type": "object",
+            "properties": {
+                "autoLogin": {
+                    "type": "boolean"
+                },
+                "deviceID": {
+                    "type": "string"
+                },
+                "invitationCode": {
+                    "type": "string"
+                },
+                "ip": {
+                    "type": "string"
+                },
+                "platform": {
+                    "type": "integer"
+                },
+                "user": {
+                    "$ref": "#/definitions/chat.RegisterUserInfo"
+                },
+                "verifyCode": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "description": "Description for what is this security definition being used",
+            "type": "apiKey",
+            "name": "token",
+            "in": "header"
+        }
+    }
+}

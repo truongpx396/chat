@@ -20,9 +20,34 @@ import (
 	"github.com/OpenIMSDK/chat/pkg/common/config"
 	"github.com/OpenIMSDK/tools/discoveryregistry"
 	"github.com/gin-gonic/gin"
+
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+//swag init --parseInternal --pd --dir internal/api/ -g ../../internal/api/router.go --output cmd/api/docs
+
+// @title Open-IM-Chat API
+// @version 1.0
+// @description  Open-IM-Chat API server document, all requests in the document have an OperationId field for link tracking
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host		localhost:10008
+// @BasePath /
+
+//	@schemes http https
+
+//	@securityDefinitions.apikey	ApiKeyAuth
+//	@in							header
+//	@name						token
+//	@description				Description for what is this security definition being used
+
 func NewChatRoute(router gin.IRouter, discov discoveryregistry.SvcDiscoveryRegistry) {
+
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	chatConn, err := discov.GetConn(context.Background(), config.Config.RpcRegisterName.OpenImChatName)
 	if err != nil {
 		panic(err)
@@ -34,27 +59,27 @@ func NewChatRoute(router gin.IRouter, discov discoveryregistry.SvcDiscoveryRegis
 	mw := NewMW(adminConn)
 	chat := NewChat(chatConn, adminConn)
 	account := router.Group("/account")
-	account.POST("/code/send", chat.SendVerifyCode)                      // 发送验证码
-	account.POST("/code/verify", chat.VerifyCode)                        // 校验验证码
-	account.POST("/register", chat.RegisterUser)                         // 注册
-	account.POST("/login", chat.Login)                                   // 登录
-	account.POST("/password/reset", chat.ResetPassword)                  // 忘记密码
-	account.POST("/password/change", mw.CheckToken, chat.ChangePassword) // 修改密码
+	account.POST("/code/send", chat.SendVerifyCode)                      // Send the verification code
+	account.POST("/code/verify", chat.VerifyCode)                        // Verification code
+	account.POST("/register", chat.RegisterUser)                         // register
+	account.POST("/login", chat.Login)                                   // Log in
+	account.POST("/password/reset", chat.ResetPassword)                  // forget the password
+	account.POST("/password/change", mw.CheckToken, chat.ChangePassword) // change Password
 
 	user := router.Group("/user", mw.CheckToken)
-	user.POST("/update", chat.UpdateUserInfo)              // 编辑个人资料
-	user.POST("/find/public", chat.FindUserPublicInfo)     // 获取用户公开信息
-	user.POST("/find/full", chat.FindUserFullInfo)         // 获取用户所有信息
-	user.POST("/search/full", chat.SearchUserFullInfo)     // 搜索用户公开信息
-	user.POST("/search/public", chat.SearchUserPublicInfo) // 搜索用户所有信息
+	user.POST("/update", chat.UpdateUserInfo)              // Edit personal information
+	user.POST("/find/public", chat.FindUserPublicInfo)     // Get user disclosure information
+	user.POST("/find/full", chat.FindUserFullInfo)         // Get all the user information
+	user.POST("/search/full", chat.SearchUserFullInfo)     // Search user disclosure information
+	user.POST("/search/public", chat.SearchUserPublicInfo) // Search all information
 
 	router.POST("/friend/search", mw.CheckToken, chat.SearchFriend)
 
-	router.Group("/applet").POST("/find", mw.CheckToken, chat.FindApplet) // 小程序列表
+	router.Group("/applet").POST("/find", mw.CheckToken, chat.FindApplet) // Applet
 
-	router.Group("/client_config").POST("/get", chat.GetClientConfig) // 获取客户端初始化配置
+	router.Group("/client_config").POST("/get", chat.GetClientConfig) // Get the client initialization configuration
 
-	router.Group("/callback").POST("/open_im", chat.OpenIMCallback) // 回调
+	router.Group("/callback").POST("/open_im", chat.OpenIMCallback) // Call back
 
 	logs := router.Group("/logs", mw.CheckToken)
 	logs.POST("/upload", chat.UploadLogs)
