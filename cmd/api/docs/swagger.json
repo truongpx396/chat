@@ -14,7 +14,7 @@
         },
         "version": "1.0"
     },
-    "host": "https://chat-openim.k8s.magiclab396.com",
+    "host": "chat-openim.k8s.magiclab396.com",
     "basePath": "/",
     "paths": {
         "/account/register": {

@@ -49,7 +49,7 @@ definitions:
       verifyCode:
         type: string
     type: object
-host: https://chat-openim.k8s.magiclab396.com
+host: chat-openim.k8s.magiclab396.com
 info:
   contact: {}
   description: Open-IM-Chat API server document, all requests in the document have
